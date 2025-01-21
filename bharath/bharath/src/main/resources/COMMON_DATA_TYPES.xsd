@@ -1,0 +1,1097 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified"  elementFormDefault="qualified" >
+
+		<xs:simpleType name="StringTypeM">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="StringTypeO">
+        <xs:restriction base="xs:string">
+        </xs:restriction>
+    </xs:simpleType> 
+
+
+	<xs:simpleType name="BulkTransType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[OI]{1}" />
+      </xs:restriction>
+   </xs:simpleType>
+   
+   <xs:simpleType name="BulkTransIdType">
+    <xs:restriction base="xs:string">
+       <xs:minLength value="1" />
+       <xs:maxLength value="30" />
+    </xs:restriction>
+  </xs:simpleType>
+
+
+   <xs:simpleType name="IMEITypeO">
+   <xs:union memberTypes="IMEIType EMPTY_STR"/>
+   </xs:simpleType>
+
+  <xs:simpleType name="IMEIType">
+    <xs:restriction base="xs:string">
+       <xs:minLength value="14" />
+       <xs:maxLength value="16" />
+    </xs:restriction>
+ </xs:simpleType>
+   
+	<xs:complexType name="BulkApiTransResType">
+    <xs:sequence>           
+      <xs:element name="RECORD_NUMBER" type="RecNoType" />
+			<xs:element name="SID" type="SidType" />
+		  <xs:element name="STATUS" type="BulkStatusType" />
+			<xs:element name="RESPONSE_CODE" type="ResCodeType" />
+			<xs:element name="RESPONSE_DESC" type="ResDescType" />			
+      <xs:any namespace="##any" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+   </xs:complexType>
+
+	<xs:complexType name="SidType">
+ 		<xs:sequence>
+    	<xs:choice minOccurs="1" maxOccurs="1">
+   			<xs:element name="IMSI" type="IMSIType" />
+		    <xs:element name="MSISDN" type="MSISDNType" />
+  		  <xs:element name="ICCID" type="ICCIDType" />
+      </xs:choice>
+    </xs:sequence>
+	</xs:complexType>
+	  
+   <xs:simpleType name="BulkStatusType">
+      <xs:restriction base="xs:integer">
+         <xs:pattern value="[012]{1}" />
+      </xs:restriction>
+   </xs:simpleType>
+   
+   <xs:simpleType name="RecNoType">
+      <xs:restriction base="xs:integer">
+        <xs:minInclusive value="1" />
+	<xs:maxInclusive value="1000" />
+      </xs:restriction>
+   </xs:simpleType>
+   
+   <xs:simpleType name="ResCodeType">
+      <xs:restriction base="xs:integer">
+        <xs:minInclusive value="-999999" />
+				<xs:maxInclusive value="999999" />
+      </xs:restriction>
+   </xs:simpleType>
+   
+   <xs:simpleType name="ResDescType">
+    <xs:restriction base="xs:string">
+       <xs:minLength value="1" />
+       <xs:maxLength value="500" />
+    </xs:restriction>
+  </xs:simpleType>	
+
+   <xs:simpleType name="IMSITypeO">
+   <xs:union memberTypes="IMSIType EMPTY_STR"/>
+   </xs:simpleType>
+   <xs:simpleType name="IMSIType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[0-9]{15}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="MSISDNTypeO">
+   <xs:union memberTypes="MSISDNType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="MSISDNType">
+      <xs:restriction base="xs:string">
+         <xs:minLength value="4" />
+         <xs:maxLength value="20" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="MSISDNWithoutCCTypeO">
+   <xs:union memberTypes="MSISDNWithoutCCType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="MSISDNWithoutCCType">
+      <xs:restriction base="xs:string">
+         <xs:minLength value="2" />
+         <xs:maxLength value="18" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="ICCIDTypeO">
+   <xs:union memberTypes="ICCIDType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="ICCIDType">
+      <xs:restriction base="xs:string">
+      <xs:pattern value="\s*|[a-zA-Z0-9]{19,20}"/>
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="Hex3TypeO">
+   <xs:union memberTypes="Hex3Type EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="Hex3Type">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[0-9A-Fa-f]{6}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="Hex4TypeO">
+   <xs:union memberTypes="Hex4Type EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="Hex4Type">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[0-9A-Fa-f]{8}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="Hex6TypeO">
+   <xs:union memberTypes="Hex6Type EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="Hex6Type">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[0-9A-Fa-f]{12}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="Hex8TypeO">
+   <xs:union memberTypes="Hex8Type EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="Hex8Type">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[0-9A-Fa-f]{16}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="Hex16TypeO">
+   <xs:union memberTypes="Hex16Type EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="Hex16Type">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[0-9A-Fa-f]{32}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="ReasonTypeO">
+   <xs:union memberTypes="ReasonType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="ReasonType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[RO]{1}" />
+      </xs:restriction>
+   </xs:simpleType> 
+<xs:simpleType name="ModSubStatusTypeO">
+   <xs:union memberTypes="ModSubStatusType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="ModSubStatusType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[ABTF]{1}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="VMSStatusTypeO">
+   <xs:union memberTypes="VMSStatusType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="VMSStatusType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[AD]{1}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="SSCodeNumberTypeO">
+   <xs:union memberTypes="SSCodeNumberType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="SSCodeNumberType">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="41" />
+         <xs:maxInclusive value="43" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="ODBOperationTypeO">
+   <xs:union memberTypes="ODBOperationType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="ODBOperationType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[AE]{1}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="PragmaticOperationTypeO">
+   <xs:union memberTypes="PragmaticOperationType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="PragmaticOperationType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[AEP]{1}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="PacketSrvcProfileTypeO">
+   <xs:union memberTypes="PacketSrvcProfileType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="PacketSrvcProfileType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[HRLB]{1}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="PacketSrvcProfileType2O">
+   <xs:union memberTypes="PacketSrvcProfileType2 EMPTY_STR"/>
+</xs:simpleType>
+    <xs:simpleType name="PacketSrvcProfileType2">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="H" />
+         <xs:enumeration value="R" />
+         <xs:enumeration value="L" />
+         <xs:enumeration value="B" />
+    <xs:enumeration value="HR" />
+    <xs:enumeration value="HL" />
+    <xs:enumeration value="RL" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="PacketSrvcTypeO">
+   <xs:union memberTypes="PacketSrvcType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="PacketSrvcType">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="GPRS" />
+         <xs:enumeration value="4G" />
+         <xs:enumeration value="GPRSand4G" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="PdpConfOptionTypeO">
+   <xs:union memberTypes="PdpConfOptionType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="PdpConfOptionType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[NS]{1}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="SSOperationTypeO">
+   <xs:union memberTypes="SSOperationType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="SSOperationType">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="REGISTER" />
+         <xs:enumeration value="ERASE" />
+         <xs:enumeration value="ACTIVATE" />
+         <xs:enumeration value="DE_ACTIVATE" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="SSCodeTypeO">
+   <xs:union memberTypes="SSCodeType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="SSCodeType">
+      <xs:restriction base="xs:integer">
+         <xs:enumeration value="17" />
+         <xs:enumeration value="18" />
+         <xs:enumeration value="19" />
+         <xs:enumeration value="20" />
+         <xs:enumeration value="33" />
+         <xs:enumeration value="41" />
+         <xs:enumeration value="42" />
+         <xs:enumeration value="43" />
+         <xs:enumeration value="49" />
+         <xs:enumeration value="65" />
+         <xs:enumeration value="66" />
+         <xs:enumeration value="81" />
+         <xs:enumeration value="146" />
+         <xs:enumeration value="147" />
+         <xs:enumeration value="148" />
+         <xs:enumeration value="154" />
+         <xs:enumeration value="155" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="RATTypeO">
+   <xs:union memberTypes="RATType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="RATType">
+      <xs:restriction base="xs:integer">
+         <xs:enumeration value="1000" />
+         <xs:enumeration value="1001" />
+         <xs:enumeration value="1002" />
+         <xs:enumeration value="1003" />
+         <xs:enumeration value="1004" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="BSCodeTypeO">
+   <xs:union memberTypes="BSCodeType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="BSCodeType">
+      <xs:restriction base="xs:integer">
+         <xs:enumeration value="16" />
+         <xs:enumeration value="32" />
+         <xs:enumeration value="96" />
+         <xs:enumeration value="144" />
+         <xs:enumeration value="24" />
+         <xs:enumeration value="40" />
+         <xs:enumeration value="48" />
+         <xs:enumeration value="56" />
+         <xs:enumeration value="64" />
+         <xs:enumeration value="72" />
+         <xs:enumeration value="80" />
+         <xs:enumeration value="88" />
+         <xs:enumeration value="104" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="Value1or2TypeO">
+   <xs:union memberTypes="Value1or2Type EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="Value1or2Type">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="1" />
+         <xs:maxInclusive value="2" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="Value0or1TypeO">
+   <xs:union memberTypes="Value0or1Type EMPTY_STR"/>
+</xs:simpleType>   
+   <xs:simpleType name="Value0or1Type">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="0" />
+         <xs:maxInclusive value="1" />
+      </xs:restriction>
+   </xs:simpleType>   
+<xs:simpleType name="NoReplyCondTimerTypeO">
+   <xs:union memberTypes="NoReplyCondTimerType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="NoReplyCondTimerType">
+      <xs:restriction base="xs:integer">
+         <xs:enumeration value="5" />
+         <xs:enumeration value="10" />
+         <xs:enumeration value="15" />
+         <xs:enumeration value="20" />
+         <xs:enumeration value="25" />
+         <xs:enumeration value="30" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="StringLen4zTypeO">
+   <xs:union memberTypes="StringLen4zType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="StringLen4zType">
+      <xs:restriction base="xs:string">
+         <xs:minLength value="0" />
+         <xs:maxLength value="4" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="StringLen5zTypeO">
+   <xs:union memberTypes="StringLen5zType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="StringLen5zType">
+      <xs:restriction base="xs:string">
+         <xs:minLength value="0" />
+         <xs:maxLength value="5" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="StringLen10zTypeO">
+   <xs:union memberTypes="StringLen10zType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="StringLen10zType">
+      <xs:restriction base="xs:string">
+         <xs:minLength value="0" />
+         <xs:maxLength value="10" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="StringLen20zTypeO">
+   <xs:union memberTypes="StringLen20zType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="StringLen20zType">
+      <xs:restriction base="xs:string">
+         <xs:minLength value="0" />
+         <xs:maxLength value="20" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="StringLen20TypeO">
+   <xs:union memberTypes="StringLen20Type EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="StringLen20Type">
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1" />
+         <xs:maxLength value="20" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="StringLen28TypeO">
+   <xs:union memberTypes="StringLen28Type EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="StringLen28Type">
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1" />
+         <xs:maxLength value="28" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="StringLen34TypeO">
+   <xs:union memberTypes="StringLen34Type EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="StringLen34Type">
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1" />
+         <xs:maxLength value="34" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="StringLen100TypeO">
+   <xs:union memberTypes="StringLen100Type EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="StringLen100Type">
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1" />
+         <xs:maxLength value="100" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="ImsiCategoryTypeO">
+   <xs:union memberTypes="ImsiCategoryType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="ImsiCategoryType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[PSL]{1}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="CountryCodeTypeO">
+   <xs:union memberTypes="CountryCodeType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="CountryCodeType">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="1" />
+         <xs:maxInclusive value="999" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="CliPrefTypeO">
+   <xs:union memberTypes="CliPrefType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="CliPrefType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[HLN]{1}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="ApnTypeTypeO">
+   <xs:union memberTypes="ApnTypeType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="ApnTypeType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[HL]{1}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="NumberMax1zTypeO">
+   <xs:union memberTypes="NumberMax1zType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="NumberMax1zType">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="0" />
+         <xs:maxInclusive value="1" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="NumberMax2zTypeO">
+   <xs:union memberTypes="NumberMax2zType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="NumberMax2zType">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="0" />
+         <xs:maxInclusive value="2" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="PortOutModelTypeO">
+   <xs:union memberTypes="PortOutModelType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="PortOutModelType">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="0" />
+         <xs:maxInclusive value="1" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="NumberMax3zTypeO">
+   <xs:union memberTypes="NumberMax3zType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="NumberMax3zType">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="0" />
+         <xs:maxInclusive value="3" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="NumberMax7zTypeO">
+   <xs:union memberTypes="NumberMax7zType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="NumberMax7zType">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="0" />
+         <xs:maxInclusive value="7" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="NumberLen2zTypeO">
+   <xs:union memberTypes="NumberLen2zType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="NumberLen2zType">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="0" />
+         <xs:maxInclusive value="99" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="NumberLen2TypeO">
+   <xs:union memberTypes="NumberLen2Type EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="NumberLen2Type">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="1" />
+         <xs:maxInclusive value="99" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="NumberLen3zTypeO">
+   <xs:union memberTypes="NumberLen3zType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="NumberLen3zType">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="0" />
+         <xs:maxInclusive value="999" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="NumberLen4TypeO">
+   <xs:union memberTypes="NumberLen4Type EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="NumberLen4Type">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="1" />
+         <xs:maxInclusive value="9999" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="NumberLen5TypeO">
+   <xs:union memberTypes="NumberLen5Type EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="NumberLen5Type">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="1" />
+         <xs:maxInclusive value="99999" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="NumberLen5zTypeO">
+   <xs:union memberTypes="NumberLen5zType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="NumberLen5zType">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="0" />
+         <xs:maxInclusive value="99999" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="NumberLen7zTypeO">
+   <xs:union memberTypes="NumberLen7zType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="NumberLen7zType">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="0" />
+         <xs:maxInclusive value="9999999" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="ThirtyTwoBitValDataTypeO">
+   <xs:union memberTypes="ThirtyTwoBitValDataType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="ThirtyTwoBitValDataType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[01]{32}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="OdbHplmnValTypeO">
+   <xs:union memberTypes="OdbHplmnValType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="OdbHplmnValType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[01]{4}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="ThirtyTwoBitNumDataTypeO">
+   <xs:union memberTypes="ThirtyTwoBitNumDataType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="ThirtyTwoBitNumDataType">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="0" />
+         <xs:maxInclusive value="4294967295" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="OdbHplmnDataTypeO">
+   <xs:union memberTypes="OdbHplmnDataType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="OdbHplmnDataType">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="0" />
+         <xs:maxInclusive value="15" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="MmeUlrFlagsTypeO">
+   <xs:union memberTypes="MmeUlrFlagsType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="MmeUlrFlagsType">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="0" />
+         <xs:maxInclusive value="255" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="AccessRestrTypeO">
+   <xs:union memberTypes="AccessRestrType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="AccessRestrType">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="0" />
+         <xs:maxInclusive value="252" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="SimStructureTypeO">
+   <xs:union memberTypes="SimStructureType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="SimStructureType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="([F0-9])*" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="SubscriberStatusTypeO">
+   <xs:union memberTypes="SubscriberStatusType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="SubscriberStatusType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[ABP]{1}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="RetrievalTypeO">
+   <xs:union memberTypes="RetrievalType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="RetrievalType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[BDE]{1}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="PragmaticSrvcDataTypeO">
+   <xs:union memberTypes="PragmaticSrvcDataType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="PragmaticSrvcDataType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[01]{50}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="BearerSrvcDataTypeO">
+   <xs:union memberTypes="BearerSrvcDataType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="BearerSrvcDataType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[01]{52}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="TeleSrvcDataTypeO">
+   <xs:union memberTypes="TeleSrvcDataType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="TeleSrvcDataType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[01]{32}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="CsiFlagsTypeO">
+   <xs:union memberTypes="CsiFlagsType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="CsiFlagsType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[01]{14}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="SubscriberFlagsTypeO">
+   <xs:union memberTypes="SubscriberFlagsType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="SubscriberFlagsType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[01,]{9}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="RegAvailFlagTypeO">
+   <xs:union memberTypes="RegAvailFlagType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="RegAvailFlagType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[123]{1}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="CSSubsStateTypeO">
+   <xs:union memberTypes="CSSubsStateType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="CSSubsStateType">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="AssumedIdle" />
+         <xs:enumeration value="CamelBusy" />
+         <xs:enumeration value="NetDetNotReachable" />
+         <xs:enumeration value="NotProvidedFromVLR" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="PSSubsStateTypeO">
+   <xs:union memberTypes="PSSubsStateType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="PSSubsStateType">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="NotProvidedFromSGSN" />
+         <xs:enumeration value="PSDetached" />
+         <xs:enumeration value="PSAttachedNotReachableForPaging" />
+         <xs:enumeration value="PSAttachedReachableForPaging" />
+         <xs:enumeration value="PDPActiveNotReachableForPaging" />
+         <xs:enumeration value="PDPActiveReachableForPaging" />
+         <xs:enumeration value="MsPurged" />
+         <xs:enumeration value="ImsiDetached" />
+         <xs:enumeration value="NotReachableReasonRestrictedArea" />
+         <xs:enumeration value="NotRegistered" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="StringOnlyDigitsTypeO">
+   <xs:union memberTypes="StringOnlyDigitsType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="StringOnlyDigitsType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="(\d)*" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="BooleanTypeO">
+   <xs:union memberTypes="BooleanType EMPTY_STR"/>
+</xs:simpleType>   
+   <xs:simpleType name="BooleanType">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="true" />
+         <xs:enumeration value="false" />
+      </xs:restriction>
+   </xs:simpleType>
+
+<xs:simpleType name="BooleanYesNoTypeO">
+   <xs:union memberTypes="BooleanYesNoType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="BooleanYesNoType">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="Yes" />
+         <xs:enumeration value="No" />
+      </xs:restriction>
+   </xs:simpleType>   
+<xs:simpleType name="AdditiontypeTypeO">
+   <xs:union memberTypes="AdditiontypeType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="AdditiontypeType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[IMB]{1}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="MsisdnAllocationFlagO">
+   <xs:union memberTypes="MsisdnAllocationFlag EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="MsisdnAllocationFlag">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[NA]{1}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="RemovetypeTypeO">
+   <xs:union memberTypes="RemovetypeType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="RemovetypeType">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="B" />
+         <xs:enumeration value="I" />
+         <xs:enumeration value="M" />
+         <xs:enumeration value="AB" />
+         <xs:enumeration value="AI" />
+         <xs:enumeration value="AM" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="MSISDNSTypeO">
+   <xs:union memberTypes="MSISDNSType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="MSISDNSType">
+      <xs:restriction base="xs:string">
+         <xs:minLength value="4" />
+         <xs:maxLength value="10000" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="LteConfOptionTypeO">
+   <xs:union memberTypes="LteConfOptionType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="LteConfOptionType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[NS]{1}" />
+      </xs:restriction>
+   </xs:simpleType>
+
+  <xs:complexType name="SIDRangeDataType">
+     <xs:sequence>		
+        <xs:choice minOccurs="1" maxOccurs="1">
+           <xs:element name="IMSI_RANGE" type="IMSIRangeType" />
+           <xs:element name="MSISDN_RANGE" type="MSISDNRangeType" />
+           <xs:element name="ICC_ID_RANGE" type="ICCIDRangeType" />
+           <xs:element name="IMSI_LIST" type="IMSIListType" />
+           <xs:element name="MSISDN_LIST" type="MSISDNListType" />
+           <xs:element name="ICC_ID_LIST" type="ICCIDListType" />
+        </xs:choice>
+     </xs:sequence>
+  </xs:complexType>
+
+    <xs:complexType name="IMSIRangeType">
+     <xs:sequence>
+		<xs:element name="RANGE" type="IMSIRangeDataType" minOccurs="1" maxOccurs="10" />		
+	 </xs:sequence>
+	</xs:complexType>
+	
+	 <xs:complexType name="IMSIRangeDataType">
+     <xs:sequence>		
+		<xs:element name="FROM" type="IMSIType" />
+        <xs:element name="TO" type="IMSIType" />
+	 </xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="MSISDNRangeType">
+     <xs:sequence>
+		<xs:element name="RANGE" type="MSISDNRangeDataType" minOccurs="1" maxOccurs="10" />		
+	 </xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="MSISDNRangeDataType">
+     <xs:sequence>
+		<xs:element name="FROM" type="MSISDNType" />
+        <xs:element name="TO" type="MSISDNType" />
+	 </xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="ICCIDRangeType">
+     <xs:sequence>
+		<xs:element name="RANGE" type="ICCIDRangeDataType" minOccurs="1" maxOccurs="10" />		
+	 </xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="ICCIDRangeDataType">
+     <xs:sequence>
+		<xs:element name="FROM" type="ICCIDType" />
+        <xs:element name="TO" type="ICCIDType" />
+	 </xs:sequence>
+	</xs:complexType>	
+
+
+        <xs:complexType name="IMSIListType">
+     <xs:sequence>
+        <xs:element name="IMSI" type="IMSIType" minOccurs="1" maxOccurs="1000" />
+     </xs:sequence>
+ </xs:complexType>
+
+  <xs:complexType name="MSISDNListType">
+     <xs:sequence>
+        <xs:element name="MSISDN" type="MSISDNType" minOccurs="1" maxOccurs="1000" />
+     </xs:sequence>
+ </xs:complexType>
+
+  <xs:complexType name="ICCIDListType">
+     <xs:sequence>
+        <xs:element name="ICC_ID" type="ICCIDType" minOccurs="1" maxOccurs="1000" />
+     </xs:sequence>
+ </xs:complexType>
+
+   <xs:complexType name="ProfileIdType">
+      <xs:sequence>
+         <xs:element name="HOME" type="xs:integer" minOccurs="0" />
+         <xs:element name="ROAM" type="xs:integer" minOccurs="0" />
+         <xs:element name="LOCAL_ROAM" type="xs:integer" minOccurs="0" />
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="AllocPhaseTypeO">
+   <xs:union memberTypes="AllocPhaseType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="AllocPhaseType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[IR]{1}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="AllocationtypeTypeO">
+   <xs:union memberTypes="AllocationtypeType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="AllocationtypeType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[BRSNA]{1}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="NpaTypeO">
+   <xs:union memberTypes="NpaType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="NpaType">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="1" />
+         <xs:maxInclusive value="999" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="NpaStateTypeO">
+   <xs:union memberTypes="NpaStateType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="NpaStateType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[A-Z]{2}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="ChannelIdTypeO">
+   <xs:union memberTypes="ChannelIdType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="ChannelIdType">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="IVR" />
+         <xs:enumeration value="CBOS" />
+         <xs:enumeration value="CPOS" />
+         <xs:enumeration value="SELFP" />
+         <xs:enumeration value="USSD" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="RangeCountTypeO">
+   <xs:union memberTypes="RangeCountType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="RangeCountType">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="1" />
+         <xs:maxInclusive value="100" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:complexType name="NpaRangesType">
+      <xs:sequence>
+         <xs:element name="R001" type="xs:string" minOccurs="0" />
+         <xs:element name="R002" type="xs:string" minOccurs="0" />
+         <xs:element name="R003" type="xs:string" minOccurs="0" />
+         <xs:element name="R004" type="xs:string" minOccurs="0" />
+         <xs:element name="R005" type="xs:string" minOccurs="0" />
+         <xs:element name="R006" type="xs:string" minOccurs="0" />
+         <xs:element name="R007" type="xs:string" minOccurs="0" />
+         <xs:element name="R008" type="xs:string" minOccurs="0" />
+         <xs:element name="R009" type="xs:string" minOccurs="0" />
+         <xs:element name="R010" type="xs:string" minOccurs="0" />
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="StatesCountTypeO">
+   <xs:union memberTypes="StatesCountType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="StatesCountType">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="1" />
+         <xs:maxInclusive value="10" />
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:complexType name="StatesType">
+      <xs:sequence>
+         <xs:element name="S01" type="xs:string" minOccurs="0" />
+         <xs:element name="S02" type="xs:string" minOccurs="0" />
+         <xs:element name="S03" type="xs:string" minOccurs="0" />
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="ActionTakenTypeO">
+   <xs:union memberTypes="ActionTakenType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="ActionTakenType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[ABRS]{1}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="GetLocInfoTypeO">
+   <xs:union memberTypes="GetLocInfoType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="GetLocInfoType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[BE]{1}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="SubsStateO">
+   <xs:union memberTypes="SubsState EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="SubsState">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="AssumedIdle" />
+         <xs:enumeration value="CamelBusy" />
+         <xs:enumeration value="NetDetNotReachable" />
+         <xs:enumeration value="NotProvidedFromVLR" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="CSRetrivedFlagO">
+   <xs:union memberTypes="CSRetrivedFlag EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="CSRetrivedFlag">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[YN]{1}" />
+      </xs:restriction>
+   </xs:simpleType>
+<xs:simpleType name="CSAgeofTypeO">
+   <xs:union memberTypes="CSAgeofType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="CSAgeofType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[0-9]{8}" />
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:complexType name="VlrCapabilityType">
+      <xs:sequence>
+         <xs:element name="SUPP_LCS_CAPABILITIES" type="ModifyCsiType" minOccurs="1" />
+         <xs:element name="SUPP_CAMEL_PHASES" type="ModifyCsiType" minOccurs="1" />
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="ModifyCsiTypeO">
+   <xs:union memberTypes="ModifyCsiType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="ModifyCsiType">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="1" />
+         <xs:maxInclusive value="14" />
+      </xs:restriction>
+   </xs:simpleType> 
+<xs:simpleType name="MNPInfoTypeO">
+   <xs:union memberTypes="MNPInfoType EMPTY_STR"/>
+</xs:simpleType>
+   <xs:simpleType name="MNPInfoType">
+     <xs:restriction base="xs:string">
+      <xs:enumeration value="NotKnownToBePorted" />
+      <xs:enumeration value="OwnNumberPortedOut" />
+      <xs:enumeration value="ForeignNumberPortedToForeignNetwork" />
+      <xs:enumeration value="OwnNumberNotPortedOut" />
+      <xs:enumeration value="ForeignNumberPortedIn" />
+    </xs:restriction>
+   </xs:simpleType>   
+<xs:simpleType name="StateCodeTypeO">
+   <xs:union memberTypes="StateCodeType EMPTY_STR"/>
+</xs:simpleType>
+<xs:simpleType name="StateCodeType">
+   <xs:restriction base="xs:string">
+   <xs:pattern value="[A-Z][A-Z]"/>
+   </xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="packageTypeO">
+   <xs:union memberTypes="packageType EMPTY_STR"/>
+</xs:simpleType>
+  <xs:simpleType name="packageType">
+   <xs:restriction base="xs:string">         
+      <xs:minLength value="1" />
+      <xs:maxLength value="100" />
+   </xs:restriction>
+  </xs:simpleType>   
+
+<xs:simpleType name="ZIPTypeO">
+   <xs:union memberTypes="ZIPType EMPTY_STR"/>
+</xs:simpleType>
+  <xs:simpleType name="ZIPType">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="\d{5}" />
+    </xs:restriction>
+  </xs:simpleType>
+   
+<xs:simpleType name="BalanceTypeO">
+   <xs:union memberTypes="BalanceType EMPTY_STR"/>
+</xs:simpleType>
+<xs:simpleType name="BalanceType">
+  <xs:restriction base="xs:decimal">
+    <xs:totalDigits value ="15"/>
+   <xs:fractionDigits value="4"/>
+    <xs:pattern value="[0-9]{1,10}[\.]?[0-9]{0,4}"/>
+    <!--<xs:pattern value="[0-9]{1,10}[\.]?[0-9]{0,6}"/>-->
+  </xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="NameTypeO">
+   <xs:union memberTypes="NameType EMPTY_STR"/>
+</xs:simpleType>
+<xs:simpleType name="NameType">
+  <xs:restriction base="xs:string">
+    <xs:pattern value="[a-zA-Z0-9_.' !@#$%^*()-_+={}|/:;,>?/`~ ]*"/>
+  </xs:restriction>
+</xs:simpleType>
+
+  <xs:simpleType name="EMPTY_STR">
+     <xs:restriction base="xs:string">
+     <xs:enumeration value=""/>
+     </xs:restriction>
+   </xs:simpleType>     
+
+<xs:simpleType name="CmnAccountIdType">
+  <xs:restriction base="xs:string">
+          <xs:pattern value="[0-9]{1,20}"/>
+  </xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="DataCodingType">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="0" />
+         <xs:maxInclusive value="255" />
+      </xs:restriction>
+</xs:simpleType>
+
+<!-- FRR_4626_Start-->
+<xs:simpleType name="YYYYMMDDHHMMSSTypeO">
+   <xs:union memberTypes="YYYYMMDDHHMMSSType EMPTY_STR"/>
+</xs:simpleType>
+<xs:simpleType name="YYYYMMDDHHMMSSType">
+  <xs:restriction base="xs:integer">
+    <xs:pattern value="[0-9]{4}(([0]{1}[0-9]{1})|([1]{1}[0-2]{1}))(([0-2]{1}[0-9]{1})|([3]{1}[0-1]{1}))(([0-1]{1}[0-9]{1})|([2]{1}[0-3]{1}))(([0-5]{1}[0-9]{1})|([6]{1}[0]{1}))(([0-5]{1}[0-9]{1})|([6]{1}[0]{1}))"/>
+  </xs:restriction>
+</xs:simpleType>
+<!-- FRR_4626_End -->
+</xs:schema>

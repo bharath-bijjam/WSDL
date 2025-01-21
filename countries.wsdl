@@ -1,0 +1,1885 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://example.com/countries" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.plintron.com/wsdl/" targetNamespace="http://www.plintron.com/wsdl/">
+  <wsdl:types>
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://example.com/countries"> &gt;
+
+    <xs:simpleType name="StringTypeM">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="StringTypeO">
+        <xs:restriction base="xs:string">
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:simpleType name="BulkTransType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[OI]{1}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="BulkTransIdType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="30"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:simpleType name="IMEITypeO">
+        <xs:union memberTypes="IMEIType EMPTY_STR"/>
+    </xs:simpleType>
+
+    <xs:simpleType name="IMEIType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="14"/>
+            <xs:maxLength value="16"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="BulkApiTransResType">
+        <xs:sequence>
+            <xs:element name="RECORD_NUMBER" type="RecNoType"/>
+            <xs:element name="SID" type="SidType"/>
+            <xs:element name="STATUS" type="BulkStatusType"/>
+            <xs:element name="RESPONSE_CODE" type="ResCodeType"/>
+            <xs:element name="RESPONSE_DESC" type="ResDescType"/>
+            <xs:any maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="skip"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="SidType">
+        <xs:sequence>
+            <xs:choice maxOccurs="1" minOccurs="1">
+                <xs:element name="IMSI" type="IMSIType"/>
+                <xs:element name="MSISDN" type="MSISDNType"/>
+                <xs:element name="ICCID" type="ICCIDType"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="BulkStatusType">
+        <xs:restriction base="xs:integer">
+            <xs:pattern value="[012]{1}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="RecNoType">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="1"/>
+            <xs:maxInclusive value="1000"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="ResCodeType">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="-999999"/>
+            <xs:maxInclusive value="999999"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="ResDescType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="500"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="IMSITypeO">
+        <xs:union memberTypes="IMSIType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="IMSIType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{15}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="MSISDNTypeO">
+        <xs:union memberTypes="MSISDNType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="MSISDNType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="4"/>
+            <xs:maxLength value="20"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="MSISDNWithoutCCTypeO">
+        <xs:union memberTypes="MSISDNWithoutCCType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="MSISDNWithoutCCType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="2"/>
+            <xs:maxLength value="18"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ICCIDTypeO">
+        <xs:union memberTypes="ICCIDType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="ICCIDType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\s*|[a-zA-Z0-9]{19,20}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Hex3TypeO">
+        <xs:union memberTypes="Hex3Type EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="Hex3Type">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9A-Fa-f]{6}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Hex4TypeO">
+        <xs:union memberTypes="Hex4Type EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="Hex4Type">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9A-Fa-f]{8}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Hex6TypeO">
+        <xs:union memberTypes="Hex6Type EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="Hex6Type">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9A-Fa-f]{12}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Hex8TypeO">
+        <xs:union memberTypes="Hex8Type EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="Hex8Type">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9A-Fa-f]{16}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Hex16TypeO">
+        <xs:union memberTypes="Hex16Type EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="Hex16Type">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9A-Fa-f]{32}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ReasonTypeO">
+        <xs:union memberTypes="ReasonType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="ReasonType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[RO]{1}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ModSubStatusTypeO">
+        <xs:union memberTypes="ModSubStatusType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="ModSubStatusType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[ABTF]{1}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="VMSStatusTypeO">
+        <xs:union memberTypes="VMSStatusType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="VMSStatusType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[AD]{1}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="SSCodeNumberTypeO">
+        <xs:union memberTypes="SSCodeNumberType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="SSCodeNumberType">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="41"/>
+            <xs:maxInclusive value="43"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ODBOperationTypeO">
+        <xs:union memberTypes="ODBOperationType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="ODBOperationType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[AE]{1}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="PragmaticOperationTypeO">
+        <xs:union memberTypes="PragmaticOperationType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="PragmaticOperationType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[AEP]{1}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="PacketSrvcProfileTypeO">
+        <xs:union memberTypes="PacketSrvcProfileType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="PacketSrvcProfileType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[HRLB]{1}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="PacketSrvcProfileType2O">
+        <xs:union memberTypes="PacketSrvcProfileType2 EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="PacketSrvcProfileType2">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="H"/>
+            <xs:enumeration value="R"/>
+            <xs:enumeration value="L"/>
+            <xs:enumeration value="B"/>
+            <xs:enumeration value="HR"/>
+            <xs:enumeration value="HL"/>
+            <xs:enumeration value="RL"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="PacketSrvcTypeO">
+        <xs:union memberTypes="PacketSrvcType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="PacketSrvcType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="GPRS"/>
+            <xs:enumeration value="4G"/>
+            <xs:enumeration value="GPRSand4G"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="PdpConfOptionTypeO">
+        <xs:union memberTypes="PdpConfOptionType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="PdpConfOptionType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[NS]{1}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="SSOperationTypeO">
+        <xs:union memberTypes="SSOperationType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="SSOperationType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="REGISTER"/>
+            <xs:enumeration value="ERASE"/>
+            <xs:enumeration value="ACTIVATE"/>
+            <xs:enumeration value="DE_ACTIVATE"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="SSCodeTypeO">
+        <xs:union memberTypes="SSCodeType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="SSCodeType">
+        <xs:restriction base="xs:integer">
+            <xs:enumeration value="17"/>
+            <xs:enumeration value="18"/>
+            <xs:enumeration value="19"/>
+            <xs:enumeration value="20"/>
+            <xs:enumeration value="33"/>
+            <xs:enumeration value="41"/>
+            <xs:enumeration value="42"/>
+            <xs:enumeration value="43"/>
+            <xs:enumeration value="49"/>
+            <xs:enumeration value="65"/>
+            <xs:enumeration value="66"/>
+            <xs:enumeration value="81"/>
+            <xs:enumeration value="146"/>
+            <xs:enumeration value="147"/>
+            <xs:enumeration value="148"/>
+            <xs:enumeration value="154"/>
+            <xs:enumeration value="155"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="RATTypeO">
+        <xs:union memberTypes="RATType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="RATType">
+        <xs:restriction base="xs:integer">
+            <xs:enumeration value="1000"/>
+            <xs:enumeration value="1001"/>
+            <xs:enumeration value="1002"/>
+            <xs:enumeration value="1003"/>
+            <xs:enumeration value="1004"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="BSCodeTypeO">
+        <xs:union memberTypes="BSCodeType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="BSCodeType">
+        <xs:restriction base="xs:integer">
+            <xs:enumeration value="16"/>
+            <xs:enumeration value="32"/>
+            <xs:enumeration value="96"/>
+            <xs:enumeration value="144"/>
+            <xs:enumeration value="24"/>
+            <xs:enumeration value="40"/>
+            <xs:enumeration value="48"/>
+            <xs:enumeration value="56"/>
+            <xs:enumeration value="64"/>
+            <xs:enumeration value="72"/>
+            <xs:enumeration value="80"/>
+            <xs:enumeration value="88"/>
+            <xs:enumeration value="104"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Value1or2TypeO">
+        <xs:union memberTypes="Value1or2Type EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="Value1or2Type">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="1"/>
+            <xs:maxInclusive value="2"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Value0or1TypeO">
+        <xs:union memberTypes="Value0or1Type EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="Value0or1Type">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="1"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="NoReplyCondTimerTypeO">
+        <xs:union memberTypes="NoReplyCondTimerType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="NoReplyCondTimerType">
+        <xs:restriction base="xs:integer">
+            <xs:enumeration value="5"/>
+            <xs:enumeration value="10"/>
+            <xs:enumeration value="15"/>
+            <xs:enumeration value="20"/>
+            <xs:enumeration value="25"/>
+            <xs:enumeration value="30"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="StringLen4zTypeO">
+        <xs:union memberTypes="StringLen4zType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="StringLen4zType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="0"/>
+            <xs:maxLength value="4"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="StringLen5zTypeO">
+        <xs:union memberTypes="StringLen5zType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="StringLen5zType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="0"/>
+            <xs:maxLength value="5"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="StringLen10zTypeO">
+        <xs:union memberTypes="StringLen10zType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="StringLen10zType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="0"/>
+            <xs:maxLength value="10"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="StringLen20zTypeO">
+        <xs:union memberTypes="StringLen20zType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="StringLen20zType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="0"/>
+            <xs:maxLength value="20"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="StringLen20TypeO">
+        <xs:union memberTypes="StringLen20Type EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="StringLen20Type">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="20"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="StringLen28TypeO">
+        <xs:union memberTypes="StringLen28Type EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="StringLen28Type">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="28"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="StringLen34TypeO">
+        <xs:union memberTypes="StringLen34Type EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="StringLen34Type">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="34"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="StringLen100TypeO">
+        <xs:union memberTypes="StringLen100Type EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="StringLen100Type">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ImsiCategoryTypeO">
+        <xs:union memberTypes="ImsiCategoryType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="ImsiCategoryType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[PSL]{1}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="CountryCodeTypeO">
+        <xs:union memberTypes="CountryCodeType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="CountryCodeType">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="1"/>
+            <xs:maxInclusive value="999"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="CliPrefTypeO">
+        <xs:union memberTypes="CliPrefType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="CliPrefType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[HLN]{1}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ApnTypeTypeO">
+        <xs:union memberTypes="ApnTypeType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="ApnTypeType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[HL]{1}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="NumberMax1zTypeO">
+        <xs:union memberTypes="NumberMax1zType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="NumberMax1zType">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="1"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="NumberMax2zTypeO">
+        <xs:union memberTypes="NumberMax2zType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="NumberMax2zType">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="2"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="PortOutModelTypeO">
+        <xs:union memberTypes="PortOutModelType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="PortOutModelType">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="1"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="NumberMax3zTypeO">
+        <xs:union memberTypes="NumberMax3zType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="NumberMax3zType">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="3"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="NumberMax7zTypeO">
+        <xs:union memberTypes="NumberMax7zType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="NumberMax7zType">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="7"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="NumberLen2zTypeO">
+        <xs:union memberTypes="NumberLen2zType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="NumberLen2zType">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="99"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="NumberLen2TypeO">
+        <xs:union memberTypes="NumberLen2Type EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="NumberLen2Type">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="1"/>
+            <xs:maxInclusive value="99"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="NumberLen3zTypeO">
+        <xs:union memberTypes="NumberLen3zType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="NumberLen3zType">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="999"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="NumberLen4TypeO">
+        <xs:union memberTypes="NumberLen4Type EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="NumberLen4Type">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="1"/>
+            <xs:maxInclusive value="9999"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="NumberLen5TypeO">
+        <xs:union memberTypes="NumberLen5Type EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="NumberLen5Type">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="1"/>
+            <xs:maxInclusive value="99999"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="NumberLen5zTypeO">
+        <xs:union memberTypes="NumberLen5zType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="NumberLen5zType">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="99999"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="NumberLen7zTypeO">
+        <xs:union memberTypes="NumberLen7zType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="NumberLen7zType">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="9999999"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ThirtyTwoBitValDataTypeO">
+        <xs:union memberTypes="ThirtyTwoBitValDataType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="ThirtyTwoBitValDataType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[01]{32}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="OdbHplmnValTypeO">
+        <xs:union memberTypes="OdbHplmnValType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="OdbHplmnValType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[01]{4}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ThirtyTwoBitNumDataTypeO">
+        <xs:union memberTypes="ThirtyTwoBitNumDataType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="ThirtyTwoBitNumDataType">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="4294967295"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="OdbHplmnDataTypeO">
+        <xs:union memberTypes="OdbHplmnDataType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="OdbHplmnDataType">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="15"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="MmeUlrFlagsTypeO">
+        <xs:union memberTypes="MmeUlrFlagsType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="MmeUlrFlagsType">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="255"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="AccessRestrTypeO">
+        <xs:union memberTypes="AccessRestrType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="AccessRestrType">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="252"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="SimStructureTypeO">
+        <xs:union memberTypes="SimStructureType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="SimStructureType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="([F0-9])*"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="SubscriberStatusTypeO">
+        <xs:union memberTypes="SubscriberStatusType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="SubscriberStatusType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[ABP]{1}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="RetrievalTypeO">
+        <xs:union memberTypes="RetrievalType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="RetrievalType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[BDE]{1}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="PragmaticSrvcDataTypeO">
+        <xs:union memberTypes="PragmaticSrvcDataType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="PragmaticSrvcDataType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[01]{50}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="BearerSrvcDataTypeO">
+        <xs:union memberTypes="BearerSrvcDataType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="BearerSrvcDataType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[01]{52}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="TeleSrvcDataTypeO">
+        <xs:union memberTypes="TeleSrvcDataType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="TeleSrvcDataType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[01]{32}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="CsiFlagsTypeO">
+        <xs:union memberTypes="CsiFlagsType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="CsiFlagsType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[01]{14}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="SubscriberFlagsTypeO">
+        <xs:union memberTypes="SubscriberFlagsType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="SubscriberFlagsType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[01,]{9}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="RegAvailFlagTypeO">
+        <xs:union memberTypes="RegAvailFlagType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="RegAvailFlagType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[123]{1}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="CSSubsStateTypeO">
+        <xs:union memberTypes="CSSubsStateType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="CSSubsStateType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="AssumedIdle"/>
+            <xs:enumeration value="CamelBusy"/>
+            <xs:enumeration value="NetDetNotReachable"/>
+            <xs:enumeration value="NotProvidedFromVLR"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="PSSubsStateTypeO">
+        <xs:union memberTypes="PSSubsStateType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="PSSubsStateType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="NotProvidedFromSGSN"/>
+            <xs:enumeration value="PSDetached"/>
+            <xs:enumeration value="PSAttachedNotReachableForPaging"/>
+            <xs:enumeration value="PSAttachedReachableForPaging"/>
+            <xs:enumeration value="PDPActiveNotReachableForPaging"/>
+            <xs:enumeration value="PDPActiveReachableForPaging"/>
+            <xs:enumeration value="MsPurged"/>
+            <xs:enumeration value="ImsiDetached"/>
+            <xs:enumeration value="NotReachableReasonRestrictedArea"/>
+            <xs:enumeration value="NotRegistered"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="StringOnlyDigitsTypeO">
+        <xs:union memberTypes="StringOnlyDigitsType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="StringOnlyDigitsType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="(\d)*"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="BooleanTypeO">
+        <xs:union memberTypes="BooleanType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="BooleanType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="true"/>
+            <xs:enumeration value="false"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="BooleanYesNoTypeO">
+        <xs:union memberTypes="BooleanYesNoType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="BooleanYesNoType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Yes"/>
+            <xs:enumeration value="No"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="AdditiontypeTypeO">
+        <xs:union memberTypes="AdditiontypeType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="AdditiontypeType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[IMB]{1}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="MsisdnAllocationFlagO">
+        <xs:union memberTypes="MsisdnAllocationFlag EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="MsisdnAllocationFlag">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[NA]{1}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="RemovetypeTypeO">
+        <xs:union memberTypes="RemovetypeType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="RemovetypeType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="B"/>
+            <xs:enumeration value="I"/>
+            <xs:enumeration value="M"/>
+            <xs:enumeration value="AB"/>
+            <xs:enumeration value="AI"/>
+            <xs:enumeration value="AM"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="MSISDNSTypeO">
+        <xs:union memberTypes="MSISDNSType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="MSISDNSType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="4"/>
+            <xs:maxLength value="10000"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="LteConfOptionTypeO">
+        <xs:union memberTypes="LteConfOptionType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="LteConfOptionType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[NS]{1}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="SIDRangeDataType">
+        <xs:sequence>
+            <xs:choice maxOccurs="1" minOccurs="1">
+                <xs:element name="IMSI_RANGE" type="IMSIRangeType"/>
+                <xs:element name="MSISDN_RANGE" type="MSISDNRangeType"/>
+                <xs:element name="ICC_ID_RANGE" type="ICCIDRangeType"/>
+                <xs:element name="IMSI_LIST" type="IMSIListType"/>
+                <xs:element name="MSISDN_LIST" type="MSISDNListType"/>
+                <xs:element name="ICC_ID_LIST" type="ICCIDListType"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="IMSIRangeType">
+        <xs:sequence>
+            <xs:element maxOccurs="10" minOccurs="1" name="RANGE" type="IMSIRangeDataType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="IMSIRangeDataType">
+        <xs:sequence>
+            <xs:element name="FROM" type="IMSIType"/>
+            <xs:element name="TO" type="IMSIType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="MSISDNRangeType">
+        <xs:sequence>
+            <xs:element maxOccurs="10" minOccurs="1" name="RANGE" type="MSISDNRangeDataType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="MSISDNRangeDataType">
+        <xs:sequence>
+            <xs:element name="FROM" type="MSISDNType"/>
+            <xs:element name="TO" type="MSISDNType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ICCIDRangeType">
+        <xs:sequence>
+            <xs:element maxOccurs="10" minOccurs="1" name="RANGE" type="ICCIDRangeDataType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ICCIDRangeDataType">
+        <xs:sequence>
+            <xs:element name="FROM" type="ICCIDType"/>
+            <xs:element name="TO" type="ICCIDType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="IMSIListType">
+        <xs:sequence>
+            <xs:element maxOccurs="1000" minOccurs="1" name="IMSI" type="IMSIType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="MSISDNListType">
+        <xs:sequence>
+            <xs:element maxOccurs="1000" minOccurs="1" name="MSISDN" type="MSISDNType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ICCIDListType">
+        <xs:sequence>
+            <xs:element maxOccurs="1000" minOccurs="1" name="ICC_ID" type="ICCIDType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProfileIdType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="HOME" type="xs:integer"/>
+            <xs:element minOccurs="0" name="ROAM" type="xs:integer"/>
+            <xs:element minOccurs="0" name="LOCAL_ROAM" type="xs:integer"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="AllocPhaseTypeO">
+        <xs:union memberTypes="AllocPhaseType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="AllocPhaseType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[IR]{1}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="AllocationtypeTypeO">
+        <xs:union memberTypes="AllocationtypeType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="AllocationtypeType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[BRSNA]{1}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="NpaTypeO">
+        <xs:union memberTypes="NpaType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="NpaType">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="1"/>
+            <xs:maxInclusive value="999"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="NpaStateTypeO">
+        <xs:union memberTypes="NpaStateType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="NpaStateType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[A-Z]{2}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ChannelIdTypeO">
+        <xs:union memberTypes="ChannelIdType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="ChannelIdType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="IVR"/>
+            <xs:enumeration value="CBOS"/>
+            <xs:enumeration value="CPOS"/>
+            <xs:enumeration value="SELFP"/>
+            <xs:enumeration value="USSD"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="RangeCountTypeO">
+        <xs:union memberTypes="RangeCountType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="RangeCountType">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="1"/>
+            <xs:maxInclusive value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="NpaRangesType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="R001" type="xs:string"/>
+            <xs:element minOccurs="0" name="R002" type="xs:string"/>
+            <xs:element minOccurs="0" name="R003" type="xs:string"/>
+            <xs:element minOccurs="0" name="R004" type="xs:string"/>
+            <xs:element minOccurs="0" name="R005" type="xs:string"/>
+            <xs:element minOccurs="0" name="R006" type="xs:string"/>
+            <xs:element minOccurs="0" name="R007" type="xs:string"/>
+            <xs:element minOccurs="0" name="R008" type="xs:string"/>
+            <xs:element minOccurs="0" name="R009" type="xs:string"/>
+            <xs:element minOccurs="0" name="R010" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="StatesCountTypeO">
+        <xs:union memberTypes="StatesCountType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="StatesCountType">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="1"/>
+            <xs:maxInclusive value="10"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="StatesType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="S01" type="xs:string"/>
+            <xs:element minOccurs="0" name="S02" type="xs:string"/>
+            <xs:element minOccurs="0" name="S03" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="ActionTakenTypeO">
+        <xs:union memberTypes="ActionTakenType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="ActionTakenType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[ABRS]{1}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="GetLocInfoTypeO">
+        <xs:union memberTypes="GetLocInfoType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="GetLocInfoType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[BE]{1}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="SubsStateO">
+        <xs:union memberTypes="SubsState EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="SubsState">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="AssumedIdle"/>
+            <xs:enumeration value="CamelBusy"/>
+            <xs:enumeration value="NetDetNotReachable"/>
+            <xs:enumeration value="NotProvidedFromVLR"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="CSRetrivedFlagO">
+        <xs:union memberTypes="CSRetrivedFlag EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="CSRetrivedFlag">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[YN]{1}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="CSAgeofTypeO">
+        <xs:union memberTypes="CSAgeofType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="CSAgeofType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{8}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="VlrCapabilityType">
+        <xs:sequence>
+            <xs:element minOccurs="1" name="SUPP_LCS_CAPABILITIES" type="ModifyCsiType"/>
+            <xs:element minOccurs="1" name="SUPP_CAMEL_PHASES" type="ModifyCsiType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="ModifyCsiTypeO">
+        <xs:union memberTypes="ModifyCsiType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="ModifyCsiType">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="1"/>
+            <xs:maxInclusive value="14"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="MNPInfoTypeO">
+        <xs:union memberTypes="MNPInfoType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="MNPInfoType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="NotKnownToBePorted"/>
+            <xs:enumeration value="OwnNumberPortedOut"/>
+            <xs:enumeration value="ForeignNumberPortedToForeignNetwork"/>
+            <xs:enumeration value="OwnNumberNotPortedOut"/>
+            <xs:enumeration value="ForeignNumberPortedIn"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="StateCodeTypeO">
+        <xs:union memberTypes="StateCodeType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="StateCodeType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[A-Z][A-Z]"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="packageTypeO">
+        <xs:union memberTypes="packageType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="packageType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="ZIPTypeO">
+        <xs:union memberTypes="ZIPType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="ZIPType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\d{5}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="BalanceTypeO">
+        <xs:union memberTypes="BalanceType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="BalanceType">
+        <xs:restriction base="xs:decimal">
+            <xs:totalDigits value="15"/>
+            <xs:fractionDigits value="4"/>
+            <xs:pattern value="[0-9]{1,10}[\.]?[0-9]{0,4}"/>
+            <!--<xs:pattern value="[0-9]{1,10}[\.]?[0-9]{0,6}"/>-->
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="NameTypeO">
+        <xs:union memberTypes="NameType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="NameType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[a-zA-Z0-9_.' !@#$%^*()-_+={}|/:;,&gt;?/`~ ]*"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="EMPTY_STR">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value=""/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="CmnAccountIdType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{1,20}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="DataCodingType">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="255"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- FRR_4626_Start-->
+    <xs:simpleType name="YYYYMMDDHHMMSSTypeO">
+        <xs:union memberTypes="YYYYMMDDHHMMSSType EMPTY_STR"/>
+    </xs:simpleType>
+    <xs:simpleType name="YYYYMMDDHHMMSSType">
+        <xs:restriction base="xs:integer">
+            <xs:pattern value="[0-9]{4}(([0]{1}[0-9]{1})|([1]{1}[0-2]{1}))(([0-2]{1}[0-9]{1})|([3]{1}[0-1]{1}))(([0-1]{1}[0-9]{1})|([2]{1}[0-3]{1}))(([0-5]{1}[0-9]{1})|([6]{1}[0]{1}))(([0-5]{1}[0-9]{1})|([6]{1}[0]{1}))"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <!-- FRR_4626_End -->
+
+   <xs:element name="GET_BILLING_CYCLES_REQUEST">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="1" name="ID" type="NumberLen7zType"/>
+                <xs:element minOccurs="1" name="DESC" type="StringTypeM"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+                  
+    <xs:element name="GET_BILLING_CYCLES_RESPONSE">
+        <xs:complexType>
+            <xs:sequence minOccurs="0">
+                <xs:element minOccurs="1" name="LIST" nillable="true" type="ListType"/>
+				<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="skip"/>				  
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+	
+    <xs:complexType name="ListType">
+     <xs:all>
+       <xs:element minOccurs="1" name="NAME" nillable="true" type="StringTypeO"/>
+       <xs:element minOccurs="1" name="BILLINGDATESHIFT" nillable="true" type="BillingdateType"/>
+       <xs:element minOccurs="1" name="LOCKED" nillable="true" type="BooleanType"/>
+       <xs:element minOccurs="1" name="DESCRIPTION" nillable="true" type="StringTypeO"/>
+       <xs:element minOccurs="1" name="FREQUENCY" nillable="true" type="StringTypeO"/>
+       <xs:element minOccurs="1" name="DUEDATESHIFT" nillable="true" type="DueDateType"/>
+     </xs:all>
+   </xs:complexType>
+   
+   <xs:simpleType name="BillingdateType">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="1"/>
+         <xs:maxInclusive value="28"/>
+      </xs:restriction>
+   </xs:simpleType>
+   
+   <xs:simpleType name="DueDateType">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="0"/>
+      </xs:restriction>
+   </xs:simpleType>
+   
+    <xs:element name="CREATE_CUSTOMER_REQUEST">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="1" name="ID" type="NumberLen7zType"/>
+        <xs:element minOccurs="1" name="DESC" type="StringTypeM"/>
+        <xs:element minOccurs="1" name="MSISDN" type="MSISDNType"/>
+		<xs:element minOccurs="0" name="ICCID" type="ICCIDType"/>
+        <xs:element minOccurs="1" name="SUBSTYPE" type="NumberMax2zType"/>
+        <xs:element minOccurs="1" name="PREFERREDLANGUAGE" type="PreferedLanguageType"/>
+        <xs:element minOccurs="1" name="DOB" type="xs:date"/>
+        <xs:element minOccurs="1" name="TITLE" type="TitleType"/>
+        <xs:element minOccurs="1" name="FIRSTNAME" type="StringTypeM"/>
+        <xs:element minOccurs="1" name="SURNAME" type="StringTypeM"/>
+        <xs:element minOccurs="1" name="BILLINGCYCLE" type="StringTypeM"/>
+        <xs:element maxOccurs="3" minOccurs="2" name="CONTACTMEDIUMS" type="ContactMediumsType"/>
+		<xs:element minOccurs="0" name="CREDIT_SCORE" type="CreditScoreType"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+   
+   <xs:simpleType name="PreferedLanguageType">
+      <xs:restriction base="xs:string">
+		<xs:enumeration value="nl"/>
+        <xs:enumeration value="en"/>
+	  </xs:restriction>
+   </xs:simpleType>
+   
+      <xs:simpleType name="CreditScoreType">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="1"/>
+         <xs:maxInclusive value="999"/>
+      </xs:restriction>
+   </xs:simpleType>
+   
+   
+  <xs:element name="CREATE_CUSTOMER_RESPONSE">
+      <xs:complexType>
+			<xs:sequence minOccurs="0">
+              <xs:element maxOccurs="1" minOccurs="1" name="BILLINGACCOUNTID" type="StringTypeM"/>
+			</xs:sequence>
+      </xs:complexType>
+  </xs:element>
+  
+  <xs:complexType name="ContactMediumsType">
+    <xs:sequence>
+      <xs:element minOccurs="1" name="TYPE" type="ContectMediumType"/>
+	  <xs:choice>
+		<xs:group ref="EmailAddressGroup"/>
+		<xs:group ref="PostalAddressGroup"/>
+	  </xs:choice>
+    </xs:sequence>
+  </xs:complexType> 
+  
+  	<xs:group name="EmailAddressGroup">
+		<xs:sequence>
+			<xs:element minOccurs="1" name="EMAILADDRESS" type="StringTypeO"/>
+  			<xs:element minOccurs="0" name="PREFERRED" type="BooleanType"/>
+		</xs:sequence>
+	</xs:group>
+	
+	<xs:group name="PostalAddressGroup">
+		<xs:sequence>
+			<xs:element minOccurs="1" name="CITY" type="StringTypeO"/>
+			<xs:element minOccurs="1" name="COUNTRY" type="StringTypeO"/>
+			<xs:element minOccurs="1" name="POSTCODE" type="StringTypeO"/>
+			<xs:element minOccurs="1" name="STREETNAME" type="StringTypeO"/>
+			<xs:element minOccurs="0" name="STREETNR" type="StringTypeO"/>
+			<xs:element minOccurs="0" name="STREETTYPE" type="StringTypeO"/>
+		</xs:sequence>
+	</xs:group>
+	
+  <xs:complexType name="SpendCapLimitType">
+      <xs:sequence>
+         <xs:element minOccurs="1" name="VALUE" type="xs:float"/>
+         <xs:element minOccurs="1" name="UNIT" type="StringTypeO"/>
+       </xs:sequence>
+  </xs:complexType>
+  
+  <xs:simpleType name="TitleType">
+      <xs:restriction base="xs:string">
+		<xs:enumeration value="MR"/>
+        <xs:enumeration value="MS"/>
+		<xs:enumeration value="MRS"/>
+        <xs:enumeration value="DR"/>
+		<xs:enumeration value="MISS"/>
+        <xs:enumeration value="MX"/>
+		<xs:enumeration value="PROF"/>
+        <xs:enumeration value="REV"/>
+		<xs:enumeration value="SIR"/>
+      </xs:restriction>
+   </xs:simpleType>
+   
+   <xs:simpleType name="ContectMediumType">
+      <xs:restriction base="xs:string">
+       <xs:enumeration value="Email"/>
+        <xs:enumeration value="PostalAddress"/>
+      </xs:restriction>
+   </xs:simpleType>
+   
+   
+   <xs:element name="GET_CREDIT_CHECK_REPORT_REQUEST">
+   <xs:complexType>
+       <xs:sequence>
+          <xs:element name="ID" type="NumberLen7zType"/>
+          <xs:element name="DESC" type="StringTypeM"/>
+          <xs:element name="FIRSTNAME" type="StringTypeM"/>
+          <xs:element name="SURNAME" type="StringTypeM"/>
+          <xs:element name="DOB" type="StringTypeM"/>
+		  <xs:element minOccurs="0" name="EMAIL" type="StringTypeO"/>
+		  <xs:element minOccurs="0" name="CPR_NUMBER" type="StringTypeO"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="LOCATIONS" type="LocationsType1"/>
+       </xs:sequence>
+    </xs:complexType>
+ </xs:element>
+
+ <xs:element name="GET_CREDIT_CHECK_REPORT_RESPONSE">
+    <xs:complexType>
+       <xs:sequence minOccurs="0">
+          <xs:element minOccurs="1" name="CREDITSTATUS" nillable="true" type="CreditStatusType"/>
+		  <xs:element minOccurs="0" name="CREDIT_SCORE" nillable="true" type="xs:integer"/>
+		  <xs:element minOccurs="0" name="CREDIT_INDICATOR" nillable="true" type="StringTypeO"/>
+		  <xs:element minOccurs="0" name="CRIF_TRANSACTION_ID" nillable="true" type="StringTypeO"/>
+       </xs:sequence>
+    </xs:complexType>
+ </xs:element>
+
+   <xs:simpleType name="CreditStatusType">
+      <xs:restriction base="xs:string">
+       <xs:enumeration value="PASS"/>
+        <xs:enumeration value="FAIL"/>
+      </xs:restriction>
+   </xs:simpleType>
+   
+   
+   <xs:complexType name="LocationsType1">
+     <xs:sequence maxOccurs="3" minOccurs="1">
+       <xs:element name="LOCATION" type="LocationType1"/>
+     </xs:sequence>
+   </xs:complexType>
+   
+   <xs:complexType name="LocationType1">
+     <xs:sequence>
+	   <xs:element minOccurs="0" name="IS_OVERSEAS_LOCATION" type="xs:integer"/>
+       <xs:element name="LOCATIONIDENTIFIER" type="LocationIdentType"/>
+       <xs:element minOccurs="0" name="FLAT" type="StringTypeO"/>
+       <xs:element minOccurs="0" name="HOUSENAME" type="StringTypeO"/>
+       <xs:element name="HOUSENUMBER" type="StringTypeM"/>
+       <xs:element name="STREET" type="StringTypeM"/>
+       <xs:element minOccurs="0" name="STREET2" type="StringTypeO"/>
+       <xs:element name="DISTRICT" type="StringTypeM"/>
+       <xs:element minOccurs="0" name="DISTRICT2" type="StringTypeO"/>
+       <xs:element name="POSTTOWN" type="StringTypeM"/>
+       <xs:element name="COUNTRY" type="StringTypeM"/>
+       <xs:element name="POSTCODE" type="StringTypeM"/>
+       <xs:element minOccurs="0" name="POBOX" type="StringTypeO"/>
+       <xs:element minOccurs="0" name="SHAREDLETTERBOX" type="SharedLetterBoxType"/>
+	   <xs:element minOccurs="0" name="RESIDENTPERIOD" type="ResidentType"/>
+     </xs:sequence>
+   </xs:complexType>
+   
+   
+   <xs:complexType name="ResidentType">
+      <xs:sequence>
+         <xs:element minOccurs="1" name="STARTDATE" type="YearDateType"/>
+         <xs:element minOccurs="1" name="ENDDATE" type="YearDateType"/>
+       </xs:sequence>
+  </xs:complexType>
+   
+   <xs:simpleType name="LocationIdentType">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="1"/>
+       <xs:maxInclusive value="3"/>
+      </xs:restriction>
+   </xs:simpleType>
+   
+   
+   
+    <xs:simpleType name="SharedLetterBoxType">
+      <xs:restriction base="xs:string">
+       <xs:enumeration value="Y"/>
+        <xs:enumeration value="N"/>
+      </xs:restriction>
+   </xs:simpleType>
+   
+    <xs:element name="SUBSCRIBE_PRODUCT_OFFERING_REQUEST">
+        <xs:complexType>
+            <xs:sequence>
+			
+                <xs:element minOccurs="1" name="ID" type="NumberLen7zType"/>
+                <xs:element minOccurs="1" name="DESC" type="StringTypeM"/>
+				<xs:element minOccurs="1" name="CHANNEL" type="xs:string"/>
+				<xs:element minOccurs="1" name="MSISDN" type="MSISDNType"/>
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="PROVISIONMODEL" type="provdmodelType"/>
+				<xs:choice>
+					<xs:group ref="OnboardGroup"/>
+					<xs:group ref="ProvisionGroup"/>
+					<xs:group ref="UpgradeGroup"/>
+				</xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+	
+	 <xs:group name="UpgradeGroup">
+		<xs:sequence>
+			<xs:element minOccurs="1" name="CURRENTPRODUCT" type="StringTypeM"/>
+			<xs:element minOccurs="1" name="CHANGEPRODUCT" type="StringTypeM"/>
+			<xs:element minOccurs="1" name="PLAN_CHANGE_OPTION" type="StringTypeO"/>
+		</xs:sequence>
+	</xs:group>
+	
+   <xs:group name="ProvisionGroup">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="PROVISIONPRODUCTNAME" type="StringTypeM"/>
+			<xs:element minOccurs="1" name="PRODUCTOFFERINGID" type="xs:string"/>
+		</xs:sequence>
+	</xs:group>
+    
+	<xs:group name="OnboardGroup">
+		<xs:sequence>
+			<xs:element minOccurs="1" name="ONBOARDMODEL" type="NumberMax2zType"/>
+			<xs:element minOccurs="1" name="ONBOARDDATE" type="DateType"/>
+			<xs:element minOccurs="1" name="ONBOARDSTATUS" type="pgwstatusType"/>
+			<xs:element minOccurs="0" name="SPENDCAPLIMIT" type="SpendCapLimitType"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="PROVISIONPRODUCTNAME" type="StringTypeM"/>
+			<xs:element minOccurs="0" name="CREDITAMOUNT" type="xs:float"/>
+			<xs:element minOccurs="1" name="PRODUCTOFFERINGID" type="xs:string"/>
+			<xs:element minOccurs="0" name="ACTIVATION_INFO" type="activationType"/>
+		</xs:sequence>
+	</xs:group> 
+	
+	<xs:complexType name="activationType">
+      <xs:sequence>
+         <xs:element minOccurs="1" name="FEE" type="xs:float"/>
+         <xs:element minOccurs="1" name="PAYMENT_GATEWAY_REF_ID" type="StringTypeM"/>
+		 <xs:element minOccurs="1" name="PAYMENT_GATEWAY_NAME" type="StringTypeM"/>
+       </xs:sequence>
+  </xs:complexType>
+	
+	<xs:simpleType name="DateType">
+            <xs:restriction base="xs:string">
+                <xs:pattern value="[0-9]{2}/[0-9]{2}/[0-9]{4}"/>
+            </xs:restriction>
+    </xs:simpleType>
+ 
+	<xs:simpleType name="provdmodelType">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="1"/>
+       <xs:maxInclusive value="2"/>
+      </xs:restriction>
+   </xs:simpleType> 
+   
+  
+                  
+                  
+    <xs:element name="SUBSCRIBE_PRODUCT_OFFERING_RESPONSE">
+        <xs:complexType>
+			<xs:sequence minOccurs="0">
+                <xs:element minOccurs="1" name="ORDERID" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+	
+	
+	<xs:simpleType name="pgwstatusType">
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="1"/>
+       <xs:maxInclusive value="2"/>
+      </xs:restriction>
+   </xs:simpleType>
+   
+   
+    <xs:element name="UPDATE_BILLING_CYCLE_REQUEST">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="ID" type="NumberLen7zType"/>
+			<xs:element name="MSISDN" type="MSISDNType"/>
+            <xs:element name="DESC" type="StringTypeM"/>
+            <xs:element name="BILLINGCYCLE" type="StringTypeM"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+   <xs:element name="UPDATE_BILLING_CYCLE_RESPONSE">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element minOccurs="0" name="BILLINGACCOUNT" nillable="true" type="StringTypeM"/>
+            <xs:element minOccurs="0" name="BILLINGCYCLE" nillable="true" type="StringTypeM"/>
+            <xs:element minOccurs="0" name="VALIDFOR" nillable="true" type="ValidForType"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:complexType name="ValidForType">
+     <xs:sequence>
+       <xs:element name="START" type="StringTypeM"/>
+     </xs:sequence>
+   </xs:complexType>
+   
+	<xs:element name="UPDATE_SPEND_CAP_LIMIT_REQUEST">
+		<xs:complexType>
+			<xs:sequence>
+			<xs:element name="ID" type="NumberLen7zType"/>
+			<xs:element minOccurs="1" name="MSISDN" type="MSISDNType"/>
+			<xs:element name="DESC" type="StringTypeM"/>
+			<xs:element minOccurs="1" name="AMOUNT" type="SpendCapLimitType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="UPDATE_SPEND_CAP_LIMIT_RESPONSE">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="BILLINGACCOUNT" nillable="true" type="StringTypeM"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+    
+	<xs:simpleType name="SpendCapAmountType">
+	<xs:restriction base="xs:decimal">
+		<xs:maxInclusive value="999999"/>
+		<xs:fractionDigits value="8"/>
+	</xs:restriction>
+	</xs:simpleType>
+
+	<xs:element name="GET_ALL_PRODUCT_OFFERINGS_REQUEST">
+		<xs:complexType>
+			<xs:sequence>
+			<xs:element name="ID" type="NumberLen7zType"/>
+			<xs:element name="DESC" type="StringTypeM"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="GET_ALL_PRODUCT_OFFERINGS_RESPONSE">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="LIST" type="ListType1"/>                             
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	  
+	<xs:complexType name="ListType1">
+		<xs:sequence minOccurs="0">
+			<xs:element maxOccurs="1" minOccurs="1" name="NAME" type="StringTypeM"/>
+			<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="skip"/>	   
+		</xs:sequence>
+   </xs:complexType>
+   
+   <xs:element name="GET_PRODUCT_OFFERING_SUMMARY_REQUEST">
+   <xs:complexType>
+       <xs:sequence>
+          <xs:element minOccurs="1" name="ID" type="NumberLen7zType"/>
+       <xs:element minOccurs="1" name="DESC" type="StringTypeM"/>
+       <xs:element maxOccurs="1" minOccurs="1" name="PRODUCTOFFERINGID" type="StringTypeM"/>                                 
+       </xs:sequence>
+   </xs:complexType>
+   </xs:element>
+   
+    <xs:element name="GET_PRODUCT_OFFERING_SUMMARY_RESPONSE">
+        <xs:complexType>
+        <xs:sequence>
+			   <xs:any maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="skip"/>	   
+        </xs:sequence>   
+        </xs:complexType>
+    </xs:element>
+	
+	
+		
+	<xs:element name="GET_CURRENT_POSTPAID_PLAN_REQUEST">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="1" name="ID" type="NumberLen7zType"/>
+                <xs:element minOccurs="1" name="DESC" type="StringTypeM"/>
+				<xs:element minOccurs="1" name="MSISDN" type="MSISDNType"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+                  
+	<xs:element name="GET_CURRENT_POSTPAID_PLAN_RESPONSE">
+      <xs:complexType>
+			<xs:sequence minOccurs="0">
+              <xs:element maxOccurs="unbounded" minOccurs="0" name="PRODUCTOFFERINGID" type="StringTypeM"/>
+			</xs:sequence>
+      </xs:complexType>
+    </xs:element>
+  
+  <xs:element name="GET_POSTPAID_PLAN_USAGES_REQUEST">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="1" name="ID" type="NumberLen7zType"/>
+                <xs:element minOccurs="1" name="DESC" type="StringTypeM"/>
+				<xs:element minOccurs="1" name="MSISDN" type="MSISDNType"/>
+				<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="skip"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+	
+	<xs:element name="GET_POSTPAID_PLAN_USAGES_RESPONSE">
+      <xs:complexType>
+        <xs:sequence>
+			   <xs:any maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="skip"/>	   
+        </xs:sequence>   
+        </xs:complexType>
+    </xs:element>
+		
+	<xs:complexType name="OfferingTypes">
+		<xs:sequence minOccurs="0">
+			<xs:element maxOccurs="1" minOccurs="1" name="NAME" type="StringTypeM"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="TYPE" type="StringTypeM"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="ALLOWANCES" type="AllowancesType_pp"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="SPEND_CAPS" type="SpendCapsType"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="ADDONS" type="ADDONSType"/>
+		</xs:sequence>
+  </xs:complexType>
+	
+	<xs:complexType name="AllowancesType_pp">
+		<xs:sequence minOccurs="0">
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="ALLOWANCE" type="AllowanceType_pp"/>
+		</xs:sequence>
+    </xs:complexType>
+	
+	<xs:complexType name="AllowanceType_pp">
+		<xs:sequence minOccurs="0">
+			<xs:element maxOccurs="1" minOccurs="1" name="NAME" type="StringTypeM"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="TYPE" type="StringTypeM"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="ALLOCATED_ALLOWANCE" type="xs:float"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="USED_ALLOWANCE" type="xs:float"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="REMAINING_ALLOWANCE" type="StringTypeM"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="MEASURING_UNIT" type="StringTypeM"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="CURRENCY" type="StringTypeM"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="BILLED_FOR" type="BilledType"/>
+		</xs:sequence>
+    </xs:complexType>
+	
+		<xs:complexType name="BilledType">
+			<xs:sequence minOccurs="0">
+				<xs:element maxOccurs="1" minOccurs="1" name="START" type="StringTypeM"/>
+				<xs:element maxOccurs="1" minOccurs="1" name="END" type="StringTypeM"/>
+			</xs:sequence>
+		</xs:complexType>
+	
+	<xs:complexType name="SpendCapsType">
+		<xs:sequence minOccurs="0">
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="SPEND_CAP" type="AllowanceType_pp"/>
+		</xs:sequence>
+    </xs:complexType>
+	
+	
+	<xs:complexType name="ADDONSType">
+		<xs:sequence minOccurs="0">
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="ADDON" type="ADDONType"/>
+			
+		</xs:sequence>
+    </xs:complexType>
+	
+	<xs:complexType name="ADDONType">
+		<xs:sequence minOccurs="0">
+				<xs:element maxOccurs="1" minOccurs="1" name="NAME" type="StringTypeM"/>
+				<xs:element maxOccurs="1" minOccurs="1" name="TYPE" type="StringTypeM"/>
+				<xs:element maxOccurs="1" minOccurs="0" name="ALLOWANCES" type="AllowancesType_pp"/>
+		</xs:sequence>
+     </xs:complexType>
+	
+	
+	
+	<xs:element name="ORDER_STATUS_CHANGE_REQUEST">
+      <xs:complexType>
+			<xs:sequence minOccurs="0">
+              <xs:element minOccurs="1" name="ID" type="NumberLen7zType"/>
+              <xs:element minOccurs="1" name="DESC" type="StringTypeM"/>	
+			  <xs:element minOccurs="1" name="ORDERID" type="xs:string"/>
+			  <xs:element minOccurs="1" name="STATE" type="pgwstatusType"/>
+			</xs:sequence>
+      </xs:complexType>
+    </xs:element>
+	
+	<xs:element name="ORDER_STATUS_CHANGE_RESPONSE">
+        <xs:complexType>
+        <xs:sequence minOccurs="0">
+			   <xs:any maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="skip"/>	   
+        </xs:sequence>   
+        </xs:complexType>
+    </xs:element>
+	
+	
+	<xs:element name="GET_SPEND_CAP_LIMIT_REQUEST">
+		<xs:complexType>
+			<xs:sequence>
+			<xs:element name="ID" type="NumberLen7zType"/>
+			<xs:element name="DESC" type="StringTypeM"/>
+			<xs:element minOccurs="1" name="MSISDN" type="MSISDNType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="GET_SPEND_CAP_LIMIT_RESPONSE">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="BILLINGACCOUNT" nillable="true" type="StringTypeM"/>
+				<xs:element minOccurs="0" name="VALUE" nillable="true" type="SpendCapAmountType"/>
+				<xs:element minOccurs="0" name="UNIT" nillable="true" type="StringTypeO"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	
+	
+	<xs:element name="GET_BILLING_ACCOUNT_DETAILS_REQUEST">
+		<xs:complexType>
+			<xs:sequence>
+			<xs:element name="ID" type="NumberLen7zType"/>
+			<xs:element name="DESC" type="StringTypeM"/>
+			<xs:element minOccurs="1" name="MSISDN" type="MSISDNType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="GET_BILLING_ACCOUNT_DETAILS_RESPONSE">
+		<xs:complexType>
+			<xs:all minOccurs="0">
+				<xs:element minOccurs="1" name="BILLINGACCOUNT" type="StringTypeM"/>
+				<xs:element minOccurs="1" name="BILLINGDATE" type="YearDateType"/>
+				<xs:element minOccurs="1" name="BILLINGSTATUS" type="StringTypeM"/>
+				<xs:element minOccurs="1" name="CONTRACTSTARTDATE" type="StringTypeO"/>
+				<xs:element minOccurs="1" name="CONTRACTENDDATE" type="StringTypeO"/>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	
+	
+	<xs:simpleType name="YearDateType">
+            <xs:restriction base="xs:string">
+                <xs:pattern value="[0-9]{4}-[0-9]{2}-[0-9]{2}"/>
+            </xs:restriction>
+    </xs:simpleType>
+	
+	
+	<xs:simpleType name="BillperiodType">
+            <xs:restriction base="xs:string">
+                <xs:pattern value="[0-9]{4}-[0-9]{2}"/>
+            </xs:restriction>
+    </xs:simpleType>
+	
+	
+	
+	<xs:element name="GET_BILLED_USAGE_INFO_REQUEST">
+		<xs:complexType>
+			<xs:sequence>
+			<xs:element name="ID" type="NumberLen7zType"/>
+			<xs:element name="DESC" type="StringTypeM"/>
+			<xs:element minOccurs="1" name="MSISDN" type="MSISDNType"/>
+			<xs:element minOccurs="1" name="BILLPERIOD" type="BillperiodType"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="PAGE_SIZE" type="NumberLen5Type"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="PAGE_NUMBER" type="NumberLen5Type"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	
+	<xs:element name="GET_BILLED_USAGE_INFO_RESPONSE">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element maxOccurs="1" minOccurs="0" name="PAGE_INFO" type="PageInfoType"/>
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="USAGE_INFO" type="UsageinfoType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	  <xs:complexType name="PageInfoType">
+		  <xs:sequence minOccurs="0">
+			<xs:element maxOccurs="1" minOccurs="0" name="TOTAL_NUMBER_OF_RECORDS" type="StringTypeM"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="PAGE_SIZE" type="StringTypeM"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="CURRENT_PAGE" type="StringTypeO"/>
+			<xs:element minOccurs="0" name="NEXT_PAGE" type="StringTypeO"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="PREVIOUS_PAGE" type="StringTypeM"/>
+		  </xs:sequence>
+       </xs:complexType>
+	
+	<xs:element name="GET_UNBILLED_USAGE_INFO_REQUEST">
+		<xs:complexType>
+			<xs:sequence>
+			<xs:element name="ID" type="NumberLen7zType"/>
+			<xs:element name="DESC" type="StringTypeM"/>
+			<xs:element minOccurs="1" name="MSISDN" type="MSISDNType"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="PAGE_SIZE" type="NumberLen5Type"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="PAGE_NUMBER" type="NumberLen5Type"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="GET_UNBILLED_USAGE_INFO_RESPONSE">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element maxOccurs="1" minOccurs="0" name="PAGE_INFO" type="PageInfoType"/>
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="USAGE_INFO" type="UsageinfoType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	
+	<xs:complexType name="UsageinfoType">
+		<xs:sequence minOccurs="0">
+			<xs:element maxOccurs="1" minOccurs="1" name="CALLTYPE" type="StringTypeM"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="SESSIONID" type="StringTypeM"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="SOURCE" type="StringTypeO"/>
+			<xs:element minOccurs="0" name="DESTINATION" type="StringTypeO"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="TIMESTAMP" type="StringTypeM"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="DURATION" type="xs:float"/>
+		    <xs:element minOccurs="1" name="AMOUNT" type="xs:float"/>
+			<xs:element minOccurs="1" name="CURRENCY" type="StringTypeM"/>
+			<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="skip"/>
+			</xs:sequence>
+   </xs:complexType>
+	
+	
+	
+	<xs:element name="GET_CUSTOMER_BILL_SUMMARY_REQUEST">
+		<xs:complexType>
+			<xs:sequence>
+			<xs:element name="ID" type="NumberLen7zType"/>
+			<xs:element name="DESC" type="StringTypeM"/>
+			<xs:element minOccurs="1" name="MSISDN" type="MSISDNType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="GET_CUSTOMER_BILL_SUMMARY_RESPONSE">
+		<xs:complexType>
+			<xs:all minOccurs="0">
+				<xs:element minOccurs="1" name="OUTSTANDINGAMOUNT" type="SpendCapLimitType"/>
+				<xs:element minOccurs="1" name="DUEAMOUNT" type="CustomerBillType"/>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	
+	 <xs:complexType name="CustomerBillType">
+      <xs:sequence>
+         <xs:element minOccurs="0" name="VALUE" type="xs:float"/>
+         <xs:element minOccurs="0" name="UNIT" type="StringTypeO"/>
+       </xs:sequence>
+  </xs:complexType>
+	
+	
+	<xs:element name="GET_CUSTOMER_BILL_PDF_REQUEST">
+		<xs:complexType>
+			<xs:sequence>
+			<xs:element name="ID" type="NumberLen7zType"/>
+			<xs:element name="DESC" type="StringTypeM"/>
+			<xs:element minOccurs="1" name="MSISDN" type="MSISDNType"/>
+			<xs:element minOccurs="1" name="BILLPERIOD" type="BillperiodType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="GET_CUSTOMER_BILL_PDF_RESPONSE">
+		<xs:complexType>
+			<xs:sequence minOccurs="0">
+				<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="skip"/>	   
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	
+	 <xs:element name="UNSUBSCRIBE_PRODUCT_REQUEST">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="1" name="ID" type="NumberLen7zType"/>
+                <xs:element minOccurs="1" name="DESC" type="StringTypeM"/>
+				<xs:element minOccurs="1" name="CHANNEL" type="StringTypeM"/>
+				<xs:element minOccurs="1" name="MSISDN" type="MSISDNType"/>
+				<xs:element minOccurs="1" name="UNSUBSCRIBE_TYPE" type="provdmodelType"/>
+				<xs:element minOccurs="1" name="PRODUCTOFFERINGID" type="StringTypeM"/>
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="PROVISIONPRODUCTNAME" type="StringTypeM"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+	
+	<xs:element name="UNSUBSCRIBE_PRODUCT_RESPONSE">
+      <xs:complexType>
+			<xs:sequence minOccurs="0">
+			  <xs:element maxOccurs="unbounded" minOccurs="0" name="BILLINGACCOUNT" type="StringTypeO"/>	
+			</xs:sequence>
+      </xs:complexType>
+    </xs:element>
+	
+	 <xs:element name="GET_MAX_CREDIT_TRANSFER_AMOUNT_REQUEST">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="1" name="ID" type="NumberLen7zType"/>
+                <xs:element minOccurs="1" name="DESC" type="StringTypeM"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+	
+	<xs:element name="GET_MAX_CREDIT_TRANSFER_AMOUNT_RESPONSE">
+      <xs:complexType>
+			<xs:sequence minOccurs="0">
+			  <xs:element maxOccurs="1" minOccurs="1" name="AMOUNT" type="xs:float"/>	
+			</xs:sequence>
+      </xs:complexType>
+    </xs:element>
+	
+	<xs:element name="GET_CUSTOMER_ACCOUNT_INFO_REQUEST">
+      <xs:complexType>
+			<xs:sequence>
+			  <xs:element maxOccurs="1" minOccurs="1" name="ID" type="NumberLen7zType"/>
+			  <xs:element maxOccurs="1" minOccurs="1" name="DESC" type="StringTypeM"/>
+			  <xs:element maxOccurs="1" minOccurs="1" name="MSISDN" type="MSISDNType"/>	
+			</xs:sequence>
+      </xs:complexType>
+    </xs:element>
+	
+	<xs:element name="GET_CUSTOMER_ACCOUNT_INFO_RESPONSE">
+      <xs:complexType>
+			<xs:sequence minOccurs="0">
+				<xs:element minOccurs="0" name="TITLE" type="StringTypeO"/>
+				<xs:element minOccurs="1" name="FIRSTNAME" type="StringTypeM"/>
+				<xs:element minOccurs="1" name="SURNAME" type="StringTypeM"/>
+				<xs:element minOccurs="1" name="BILLINGACCOUNT" type="StringTypeM"/>	
+				<xs:element minOccurs="1" name="BILLINGDATE" type="YearDateType"/>
+				<xs:element minOccurs="1" name="BILLINGSTATUS" type="StringTypeM"/>
+				<xs:element minOccurs="0" name="PRODUCTOFFERINGID" type="StringTypeM"/>		
+				<xs:element minOccurs="0" name="CONTRACTSTARTDATE" type="StringTypeO"/>
+				<xs:element minOccurs="0" name="CONTRACTENDDATE" type="StringTypeO"/>
+				<xs:element minOccurs="1" name="DUEAMOUNT" type="CustomerBillType"/>
+				<xs:element minOccurs="1" name="OUTSTANDINGAMOUNT" type="SpendCapLimitType"/>
+			</xs:sequence>
+      </xs:complexType>
+    </xs:element>
+	
+	
+	
+</xs:schema>
+  </wsdl:types>
+  <wsdl:portType name="PlintronPortType">
+  </wsdl:portType>
+  <wsdl:binding name="PlintronPortTypeSoap11" type="tns:PlintronPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+  </wsdl:binding>
+  <wsdl:service name="PlintronPortTypeService">
+    <wsdl:port binding="tns:PlintronPortTypeSoap11" name="PlintronPortTypeSoap11">
+      <soap:address location="/ws"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
